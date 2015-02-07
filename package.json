@@ -1,0 +1,30 @@
+{
+  "name": "bspec",
+  "version": "0.0.1",
+  "description": "A JavaScript library for structuring business rules",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gchudnov/bspec.git"
+  },
+  "keywords": [
+    "specification",
+    "ddd",
+    "pattern",
+    "business",
+    "rules"
+  ],
+  "author": "Grigoriy Chudnov <g.chudnov@gmail.com> (https://github.com/gchudnov)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gchudnov/bspec/issues"
+  },
+  "homepage": "https://github.com/gchudnov/bspec",
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "should": "^4.6.5"
+  }
+}
