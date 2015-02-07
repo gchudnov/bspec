@@ -4,38 +4,42 @@ var should = require('should');
 var util = require('util');
 var Spec = require('./../lib/bspec').Spec;
 
-describe('Composite Specification', function() {
+describe('Async', function() {
 
-  // TRUE
-  function TrueSpec() {
-  }
+  describe('Composite Specification', function() {
 
-  util.inherits(TrueSpec, Spec);
+    // TRUE
+    function TrueSpec() {
+    }
 
-  TrueSpec.prototype.isSatisfiedBy = function(dummy, cb) {
-    return cb(null, true);
-  };
+    util.inherits(TrueSpec, Spec);
 
-  // FALSE
-  function FalseSpec() {
-  }
+    TrueSpec.prototype.isSatisfiedBy = function(dummy, cb) {
+      return cb(null, true);
+    };
 
-  util.inherits(FalseSpec, Spec);
+    // FALSE
+    function FalseSpec() {
+    }
 
-  FalseSpec.prototype.isSatisfiedBy = function(dummy, cb) {
-    return cb(null, false);
-  };
+    util.inherits(FalseSpec, Spec);
 
-  var alwaysTrue = new TrueSpec();
-  var alwaysFalse = new FalseSpec();
+    FalseSpec.prototype.isSatisfiedBy = function(dummy, cb) {
+      return cb(null, false);
+    };
+
+    var alwaysTrue = new TrueSpec();
+    var alwaysFalse = new FalseSpec();
 
 
-  it('can be validated for (true && false) || true', function(done) {
-    alwaysTrue.and(alwaysFalse).or(alwaysTrue).isSatisfiedBy({}, function(err, flag) {
-      should.not.exist(err);
-      flag.should.be.true;
-      done();
+    it('can be validated for (true && false) || true', function(done) {
+      alwaysTrue.and(alwaysFalse).or(alwaysTrue).isSatisfiedBy({}, function(err, flag) {
+        should.not.exist(err);
+        flag.should.be.true;
+        done();
+      });
     });
+
   });
 
 });
