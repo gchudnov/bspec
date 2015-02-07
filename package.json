@@ -2,7 +2,7 @@
   "name": "bspec",
   "version": "0.0.4",
   "description": "A JavaScript library for structuring business rules",
-  "main": "index.js",
+  "main": "./lib/bspec.js",
   "scripts": {
     "test": "mocha",
     "browser": "gulp script"
