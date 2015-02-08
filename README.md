@@ -3,6 +3,18 @@ A JavaScript library for structuring business rules
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/bspec.svg)](https://saucelabs.com/u/bspec)
 
+## Example
+
+TBD
+
+## node.js | io.js
+
+TBD
+
+## In browser
+
+TBD
+
 ## Tests
 
 To run the tests for _bspec_:
