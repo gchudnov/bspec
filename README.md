@@ -1,4 +1,4 @@
-# bspec
+# bspec [![Build Status](https://travis-ci.org/gchudnov/bspec.svg)](https://travis-ci.org/gchudnov/bspec)
 A JavaScript library for structuring business rules
 
 
