@@ -1,6 +1,6 @@
 {
   "name": "bspec",
-  "version": "0.0.4",
+  "version": "0.9.0",
   "description": "A JavaScript library for structuring business rules",
   "main": "./lib/bspec.js",
   "scripts": {
