@@ -1,0 +1,28 @@
+{
+  "name": "bspec",
+  "main": "bspec.js",
+  "version": "0.9.0",
+  "homepage": "https://github.com/gchudnov/bspec",
+  "authors": [
+    "Grigoriy Chudnov <g.chudnov@gmail.com>"
+  ],
+  "description": "A JavaScript library for structuring business rules",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "specification",
+    "ddd",
+    "pattern",
+    "business",
+    "rules"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
