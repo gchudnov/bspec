@@ -6,5 +6,5 @@ script:
   - npm test
 env:
   global:
-    - secure: QJYujEQ0ItRY8pqkzAYekOi6qpyShNzoAcNTbyd3DBealZzgRK5+eKPm7JstEl5oM6yBPUoBUXT19uhkdkS37wYwOUHqB6q4FdejJTrUOlxEcsCLR7FOwu+GRovQKZOd75FBKDftFNvDLnYD2poyoNwL4eS8aaMgzv98QDsLWn4=
-    - secure: WcJuA43e8f+FnVAQBU1OrJtsY4lczs3Hw6tjtZdzMn7Ra9wyG5HpC7cQj5y5WzlyAwlLGjxmGgk+s1+YTSU6ewUivayKayimjljlLJ9R8PtiuLlum4CE3xxY97pxVBdXOpEvRmCkxKY7dGAyCJW3nGGuLYZ6EbkgZBs9CV5Rics=
+    - secure: X4sfFLSN2ViCFVAsIZ0IzUW6z7H+V0MPiB3iw0wLqEQmuoE1PfIaVHFVXRV61Jy1WpWOJIfPAmC0oVqcQlkStSVxdO8iLcarYA4R2dXaUxvjPWEYigd+mRE5irI2i7fx37XG+2X5Gk7lTOlkOjdhXbdi1/lvjreuEV1JzlXNbgU=
+    - secure: Xovq8l0iwXjzW2mT6bP28hQgL+sw0cb+jRkzKzL0ZH9rJCGcNKpwn2O2uL01BtwJaISnOBwM2gSpZrcahLpNzVOm+NHL6Rv4d8rhBpB+x0jPPNpJ4vsfgMJtaorCdAeP9zeIgUj0nkVEVaMozpvE6hd2UgNsdvtod4eEht9ukZI=
