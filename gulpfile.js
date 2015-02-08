@@ -32,9 +32,9 @@ gulp.task('script', function() {
   return bundleStream
     .pipe(source('bspec.js'))
     .pipe($.header(banner, {pkg: pkg}))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./dist'))
     .pipe($.uglify())
     .pipe($.header(banner, {pkg: pkg}))
     .pipe($.rename('bspec.min.js'))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./dist'));
 });
