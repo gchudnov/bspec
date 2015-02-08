@@ -3,6 +3,13 @@ A JavaScript library for structuring business rules
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/bspec.svg)](https://saucelabs.com/u/bspec)
 
+## Tests
+
+To run the tests for _bspec_:
+
+    $ npm test
+
+
 ## Contact
 
 [Grigoriy Chudnov] (mailto:g.chudnov@gmail.com)
