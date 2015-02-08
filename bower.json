@@ -24,6 +24,9 @@
     "bower_components",
     "test",
     "tests",
-    "examples"
+    "examples",
+    "lib",
+    "*.js",
+    "package.json"
   ]
 }
