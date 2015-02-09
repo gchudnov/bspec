@@ -1,12 +1,10 @@
 'use strict';
 
 var SyncSpec = require('./../lib/bspec').SyncSpec;
+var util = require('util');
 
-function HasNameSpec() {
-}
-
-HasNameSpec.prototype = Object.create(SyncSpec);
-
+function HasNameSpec() { }
+util.inherits(HasNameSpec, SyncSpec);
 
 HasNameSpec.prototype.isSatisfiedBy = function(user) {
   return user && user.hasOwnProperty('name');
