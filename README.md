@@ -4,7 +4,7 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/bspec.svg)](https://saucelabs.com/u/bspec)
 
-A JavaScript library for structuring business rules.
+_bspec_ is a small JavaScript library for structuring business rules.
 
 A *specification* is a predicate that determines if an object does or does not satisfy some criteria.
 Business rules can be expressed as predicates and combined using operators such as "AND", "OR" and "NOT" to
