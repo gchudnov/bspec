@@ -32,8 +32,19 @@ describe('AND Specification', function() {
       return cb(null, false);
     };
 
+    // ERROR
+    function ErrorSpec() {
+    }
+
+    util.inherits(ErrorSpec, Spec);
+
+    ErrorSpec.prototype.isSatisfiedBy = function(dummy, cb) {
+      return cb(new Error('cannot satisfy the spec'));
+    };
+
     var alwaysTrue = new TrueSpec();
     var alwaysFalse = new FalseSpec();
+    var alwaysError = new ErrorSpec();
 
 
     it('can be validated for true-true', function(done) {
@@ -78,6 +89,35 @@ describe('AND Specification', function() {
 
     it('can be validated for true-true-false', function(done) {
       alwaysTrue.and(alwaysTrue).and(alwaysFalse).isSatisfiedBy({}, function(err, flag) {
+        should.not.exist(err);
+        flag.should.be.false;
+        done();
+      });
+    });
+
+    it('should return an error for error-true', function(done) {
+      alwaysError.and(alwaysTrue).isSatisfiedBy({}, function(err) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('should return an error for error-false', function(done) {
+      alwaysError.and(alwaysFalse).isSatisfiedBy({}, function(err) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('should return an error for true-error', function(done) {
+      alwaysTrue.and(alwaysError).isSatisfiedBy({}, function(err) {
+        should.exist(err);
+        done();
+      });
+    });
+
+    it('should return false for false-error', function(done) {
+      alwaysFalse.and(alwaysError).isSatisfiedBy({}, function(err, flag) {
         should.not.exist(err);
         flag.should.be.false;
         done();
