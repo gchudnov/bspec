@@ -93,9 +93,24 @@ console.log(someSpec.explain());
 ```
 
 ### .isSatisfiedBy(candidate) and .isSatisfiedBy(candidate, cb)
-checks whether some _candidate_ object satisfies the specification. Returns _true_ or _false_.
+checks whether some _candidate_ object satisfies the specification.
+isSatisfiedBy can be run with either a callback interface or plain interface
+
+**Callback Interface**
+
+```javascript
+spec.isSatisfiedBy({ name: 'Alice' }, function(err, flag) {
+  // `err` contains an error
+  // `flag` contains true|false
+});
+```
+
+**Plain Interface**
+
 ```javascript
 var flag = spec.isSatisfiedBy({ name: 'Alice' });
+// returns true|false
+// should throw an Error exception in case of an error
 ```
 
 ## Tests
