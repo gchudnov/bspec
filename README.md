@@ -67,30 +67,35 @@ $ bower install bspec
 ## API
 Business rules can be combined by chaining the business rules together using boolean logic:
 
-`.and`
+### .and(otherSpec)
 the _and_ of a set of specifications is true if and only if all of its operands are true. 
-```
+```javascript
 var spec = spec1.and(spec2);
 ```
 
-`.or`
+### .or(otherSpec)
 the _or_ of a set of specifications is true if and only if one or more of its operands is true
-```
+```javascript
 var spec = spec1.or(spec2);
 ```
 
-`.not`
+### .not()
 _not_ negates the specification
-```
+```javascript
 var spec = spec1.not();
 ```
 
-`.explain`
+### .explain()
 prints the rules used for composite specification, e.g.:
-```
+```javascript
 console.log(someSpec.explain());
+// ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
+```
 
-((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
+### .isSatisfiedBy(candidate) and .isSatisfiedBy(candidate, cb)
+A method to check whether some _candidate_ object satisfied the specification. Returns _true_ or _false_.
+```javascript
+spec.isSatisfiedBy({ name: 'Alice' });
 ```
 
 ## Tests
