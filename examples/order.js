@@ -7,25 +7,33 @@ var util = require('util');
 
 // is expired
 function OrderExpiredSpec() { }
+
 util.inherits(OrderExpiredSpec, SyncSpec);
+
 OrderExpiredSpec.prototype.isSatisfiedBy = function isSatisfiedBy(order) {
   return (Date.now() > order.date);
 };
 
 // is valid
 function OrderValidSpec() { }
+
 util.inherits(OrderValidSpec, SyncSpec);
+
 OrderValidSpec.prototype.isSatisfiedBy = function isSatisfiedBy(order) {
   return order && order.hasOwnProperty('number') && order.hasOwnProperty('date');
 };
 
 // is processed
 var processed = {};
+
 function OrderProcessed() { }
+
 util.inherits(OrderProcessed, SyncSpec);
+
 OrderProcessed.prototype.isSatisfiedBy = function isSatisfiedBy(order) {
   return !!processed[order.number];
 };
+
 
 var isExpired = new OrderExpiredSpec();
 var isValid = new OrderValidSpec();
