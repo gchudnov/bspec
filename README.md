@@ -67,27 +67,6 @@ $ bower install bspec
 ## API
 Business rules can be combined by chaining the business rules together using boolean logic:
 
-### .isSatisfiedBy(candidate) and .isSatisfiedBy(candidate, cb)
-checks whether some _candidate_ object satisfies the specification.
-isSatisfiedBy can be run with either a callback interface or plain interface
-
-**Callback Interface**
-
-```javascript
-spec.isSatisfiedBy({ name: 'Alice' }, function(err, flag) {
-  // `err` contains an error
-  // `flag` contains true|false
-});
-```
-
-**Plain Interface**
-
-```javascript
-var flag = spec.isSatisfiedBy({ name: 'Alice' });
-// returns true|false
-// should throw an Error exception in case of an error
-```
-
 ### .and(otherSpec)
 the _and_ of a set of specifications is true if and only if all of its operands are true. 
 ```javascript
@@ -113,6 +92,27 @@ console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
 
+### .isSatisfiedBy(candidate) and .isSatisfiedBy(candidate, cb)
+checks whether some _candidate_ object satisfies the specification.
+_isSatisfiedBy_ can be run with either a callback interface or plain interface:
+
+**Callback Interface**
+
+```javascript
+spec.isSatisfiedBy({ name: 'Alice' }, function(err, flag) {
+  // `err` contains an error
+  // `flag` contains true|false
+});
+```
+
+
+**Plain Interface**
+
+```javascript
+var flag = spec.isSatisfiedBy({ name: 'Alice' });
+// returns true|false
+// should throw an Error exception in case of an error
+```
 
 ## Tests
 
