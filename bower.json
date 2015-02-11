@@ -26,7 +26,8 @@
     "tests",
     "examples",
     "lib",
-    "*.js",
+    "gulpfile.js",
+    "index.js",
     "package.json"
   ]
 }
