@@ -1,6 +1,6 @@
 /*
  * bspec - A JavaScript library for structuring business rules
- * @version v0.9.0
+ * @version v0.9.1
  * @author Grigoriy Chudnov <g.chudnov@gmail.com> (https://github.com/gchudnov)
  * @link https://github.com/gchudnov/bspec
  * @license MIT
@@ -87,7 +87,7 @@ OrSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate, cb) {
   var self = this;
   self.lhs.isSatisfiedBy(candidate, function(err, flag) {
     if(err) {
-      cb(err);
+      return cb(err);
     }
 
     if(flag) {
@@ -99,7 +99,7 @@ OrSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate, cb) {
         return cb(err);
       }
 
-      cb(null, flag);
+      return cb(null, flag);
     });
   });
 };
@@ -122,7 +122,7 @@ NotSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate, cb) {
       return cb(err);
     }
 
-    cb(null, !flag);
+    return cb(null, !flag);
   });
 };
 
