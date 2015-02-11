@@ -93,9 +93,9 @@ console.log(someSpec.explain());
 ```
 
 ### .isSatisfiedBy(candidate) and .isSatisfiedBy(candidate, cb)
-A method to check whether some _candidate_ object satisfied the specification. Returns _true_ or _false_.
+checks whether some _candidate_ object satisfies the specification. Returns _true_ or _false_.
 ```javascript
-spec.isSatisfiedBy({ name: 'Alice' });
+var flag = spec.isSatisfiedBy({ name: 'Alice' });
 ```
 
 ## Tests
