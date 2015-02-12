@@ -1,6 +1,6 @@
 /*
  * bspec - A JavaScript library for structuring business rules
- * @version v0.9.1
+ * @version v0.10.0
  * @author Grigoriy Chudnov <g.chudnov@gmail.com> (https://github.com/gchudnov)
  * @link https://github.com/gchudnov/bspec
  * @license MIT
@@ -8,13 +8,27 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.bspec=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var CallbackSpec = require('./detail/callback');
+var SyncSpec = require('./detail/sync');
+
+module.exports.CallbackSpec = CallbackSpec;
+module.exports.SyncSpec = SyncSpec;
+
+},{"./detail/callback":2,"./detail/sync":3}],2:[function(require,module,exports){
+'use strict';
+
 var util = require('./util');
 
-//
-// Async
-//
 
+/**
+ * Specification base
+ * @returns {*}
+ * @constructor
+ */
 function Spec() {
+  if(arguments.length) {
+    return util.ensureSpec(arguments[0], Spec);
+  }
 }
 
 Spec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate, cb) {
@@ -22,14 +36,16 @@ Spec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate, cb) {
 };
 
 Spec.prototype.and = function and(other) {
+  other = util.ensureSpec(other, Spec);
   return new AndSpec(this, other);
 };
 
 Spec.prototype.or = function or(other) {
+  other = util.ensureSpec(other, Spec);
   return new OrSpec(this, other);
 };
 
-Spec.prototype.not = function or(other) {
+Spec.prototype.not = function not() {
   return new NotSpec(this);
 };
 
@@ -37,10 +53,13 @@ Spec.prototype.explain = function explain() {
   return util.functionName(this.constructor);
 };
 
-exports.Spec = Spec;
 
-
-// AND
+/**
+ * AND Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
 function AndSpec(lhs, rhs) {
   Spec.call(this);
   this.lhs = lhs;
@@ -74,7 +93,13 @@ AndSpec.prototype.explain = function explain() {
   return '(' + this.lhs.explain() + ' AND ' + this.rhs.explain() + ')';
 };
 
-// OR
+
+/**
+ * OR Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
 function OrSpec(lhs, rhs) {
   Spec.call(this);
   this.lhs = lhs;
@@ -108,7 +133,12 @@ OrSpec.prototype.explain = function explain() {
   return '(' + this.lhs.explain() + ' OR ' + this.rhs.explain() + ')';
 };
 
-// NOT
+
+/**
+ * NOT Specification
+ * @param other
+ * @constructor
+ */
 function NotSpec(other) {
   Spec.call(this);
   this.other = other;
@@ -130,122 +160,124 @@ NotSpec.prototype.explain = function explain() {
   return '(NOT ' + this.other.explain() + ')';
 };
 
+
+module.exports = Spec;
+
+},{"./util":4}],3:[function(require,module,exports){
+'use strict';
+
+var util = require('./util');
+
+
 /**
- * Create a new basic async specification
- * @param func isSatisfiedBy function, provided by a user
- * @returns {Spec}
+ * Specification base
+ * @constructor
  */
-function make(func) {
-  function BasicSpec() {
-    Spec.call(this);
+function Spec() {
+  if(arguments.length) {
+    return util.ensureSpec(arguments[0], Spec);
   }
-  util.inherits(BasicSpec, Spec);
-  BasicSpec.prototype.isSatisfiedBy = func;
-  return new BasicSpec();
 }
 
-exports.make = make;
-
-
-//
-// Sync
-//
-
-function SyncSpec() {
-}
-
-SyncSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+Spec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
   throw new Error('isSatisfiedBy not implemented');
 };
 
-SyncSpec.prototype.and = function and(other) {
-  return new SyncAndSpec(this, other);
+Spec.prototype.and = function and(other) {
+  other = util.ensureSpec(other, Spec);
+  return new AndSpec(this, other);
 };
 
-SyncSpec.prototype.or = function or(other) {
-  return new SyncOrSpec(this, other);
+Spec.prototype.or = function or(other) {
+  other = util.ensureSpec(other, Spec);
+  return new OrSpec(this, other);
 };
 
-SyncSpec.prototype.not = function or(other) {
-  return new SyncNotSpec(this);
+Spec.prototype.not = function not() {
+  return new NotSpec(this);
 };
 
-SyncSpec.prototype.explain = function explain() {
+Spec.prototype.explain = function explain() {
   return util.functionName(this.constructor);
 };
 
-exports.Spec = SyncSpec;
 
-
-// AND
-function SyncAndSpec(lhs, rhs) {
-  SyncSpec.call(this);
+/**
+ * AND Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
+function AndSpec(lhs, rhs) {
+  Spec.call(this);
   this.lhs = lhs;
   this.rhs = rhs;
 }
 
-util.inherits(SyncAndSpec, SyncSpec);
+util.inherits(AndSpec, Spec);
 
-SyncAndSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+AndSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
   return this.lhs.isSatisfiedBy(candidate) && this.rhs.isSatisfiedBy(candidate);
 };
 
-SyncAndSpec.prototype.explain = function explain() {
+AndSpec.prototype.explain = function explain() {
   return '(' + this.lhs.explain() + ' AND ' + this.rhs.explain() + ')';
 };
 
-// OR
-function SyncOrSpec(lhs, rhs) {
-  SyncSpec.call(this);
+
+/**
+ * OR Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
+function OrSpec(lhs, rhs) {
+  Spec.call(this);
   this.lhs = lhs;
   this.rhs = rhs;
 }
 
-util.inherits(SyncOrSpec, SyncSpec);
+util.inherits(OrSpec, Spec);
 
-SyncOrSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+OrSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
   return this.lhs.isSatisfiedBy(candidate) || this.rhs.isSatisfiedBy(candidate);
 };
 
-SyncOrSpec.prototype.explain = function explain() {
+OrSpec.prototype.explain = function explain() {
   return '(' + this.lhs.explain() + ' OR ' + this.rhs.explain() + ')';
 };
 
-// NOT
-function SyncNotSpec(other) {
-  SyncSpec.call(this);
+
+/**
+ * NOT Specification
+ * @param other
+ * @constructor
+ */
+function NotSpec(other) {
+  Spec.call(this);
   this.other = other;
 }
 
-util.inherits(SyncNotSpec, SyncSpec);
+util.inherits(NotSpec, Spec);
 
-SyncNotSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+NotSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
   return !this.other.isSatisfiedBy(candidate);
 };
 
-SyncNotSpec.prototype.explain = function explain() {
+NotSpec.prototype.explain = function explain() {
   return '(NOT ' + this.other.explain() + ')';
 };
 
 
-/**
- * Create a new basic sync specification
- * @param func isSatisfiedBy function, provided by a user
- * @returns {Spec}
- */
-function makeSync(func) {
-  function BasicSyncSpec() {
-    SyncSpec.call(this);
-  }
-  util.inherits(BasicSyncSpec, SyncSpec);
-  BasicSyncSpec.prototype.isSatisfiedBy = func;
-  return new BasicSyncSpec();
-}
+module.exports = Spec;
 
-exports.makeSync = makeSync;
-
-},{"./util":2}],2:[function(require,module,exports){
+},{"./util":4}],4:[function(require,module,exports){
 'use strict';
+
+exports.functionName = functionName;
+exports.inherits = inherits;
+exports.ensureSpec = ensureSpec;
+
 
 var functionNameRx = /^\s*function\s*(\S*)\s*\(/;
 
@@ -254,19 +286,19 @@ var functionNameRx = /^\s*function\s*(\S*)\s*\(/;
  * @param f
  * @returns {*}
  */
-exports.functionName = function(f) {
+function functionName(f) {
   if(f.name) {
     return f.name;
   }
   return f.toString().match(functionNameRx)[1];
-};
+}
 
 /**
  * Inherit the prototype methods from one constructor into another.
  * @param ctor
  * @param superCtor
  */
-exports.inherits = function(ctor, superCtor) {
+function inherits(ctor, superCtor) {
   ctor.super_ = superCtor;
   ctor.prototype = Object.create(superCtor.prototype, {
     constructor: {
@@ -276,7 +308,70 @@ exports.inherits = function(ctor, superCtor) {
       configurable: true
     }
   });
-};
+}
+
+/**
+ * Check that argument is a function
+ * @param arg
+ * @returns {boolean}
+ */
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+/**
+ * Check that argument is an object
+ * @param arg
+ * @returns {boolean}
+ */
+function isObject(arg) {
+  return arg !== null && typeof arg === 'object';
+}
+
+/**
+ * Check whether the provided argument can be used in place of a specification
+ * @param arg
+ * @param BaseSpec
+ */
+function isSpecLike(arg, BaseSpec) {
+  return (arg && (isFunction(arg) || (isObject(arg) && (('isSatisfiedBy' in arg) && isFunction(arg.isSatisfiedBy)) || (arg instanceof BaseSpec))));
+}
+
+/**
+ * Create a wrapper for a func
+ * @param func
+ * @param BaseSpec
+ */
+function makeWrapper(func, BaseSpec) {
+  function WrapperSpec() {
+    BaseSpec.call(this);
+  }
+
+  inherits(WrapperSpec, BaseSpec);
+
+  WrapperSpec.prototype.isSatisfiedBy = ('isSatisfiedBy' in func) ? func.isSatisfiedBy.bind(func) : func;
+
+  return new WrapperSpec();
+}
+
+/**
+ * Ensure the provided function is a specification-like object
+ * @param func
+ * @param BaseSpec
+ * @returns {*}
+ */
+function ensureSpec(func, BaseSpec) {
+  if(!isSpecLike(func, BaseSpec)) {
+    throw new Error('invalid argument: must be a function, spec-like or spec object');
+  }
+
+  if(func instanceof BaseSpec) {
+    return func;
+  }
+
+  return makeWrapper(func, BaseSpec);
+}
+
 
 },{}]},{},[1])(1)
 });
