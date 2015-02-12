@@ -18,15 +18,17 @@ express more complex rules.
 
 var bspec = require('bspec');
 
+var Spec = bspec.SyncSpec;
+
 /**
  * Constraint:
  * Only a customer who has specified a first given name can specify a second given name
  */
-var hasFirstName = bspec.makeSync(function(customer) {
+var hasFirstName = Spec(function(customer) {
   return !!(customer && customer.first_name);
 });
 
-var hasSecondName = bspec.makeSync(function(customer) {
+var hasSecondName = Spec(function(customer) {
   return !!(customer && customer.second_name);
 });
 
@@ -35,11 +37,11 @@ var customer2 = { second_name: 'Pablo' };
 var customer3 = { first_name: 'Juan', second_name: 'Pablo' };
 
 // create a composite specification to verify the constraint
-var isCustomerNameValid = (hasSecondName.not()).or(hasFirstName);
+var isNameValid = (hasSecondName.not()).or(hasFirstName);
 
-console.log(isCustomerNameValid.isSatisfiedBy(customer1)); // true
-console.log(isCustomerNameValid.isSatisfiedBy(customer2)); // false
-console.log(isCustomerNameValid.isSatisfiedBy(customer3)); // true
+console.log(isNameValid.isSatisfiedBy(customer1)); // true
+console.log(isNameValid.isSatisfiedBy(customer2)); // false
+console.log(isNameValid.isSatisfiedBy(customer3)); // true
 
 ```
 
