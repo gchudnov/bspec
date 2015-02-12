@@ -5,7 +5,7 @@ var bspec = require('./../lib/bspec');
 /**
  * Ensure that the number of passengers specified in a flight booking request is eight or less
  */
-var passengersPerRequest = bspec.makeSync(function(req) {
+var passengersPerRequest = bspec.SyncSpec(function(req) {
   return req && req.passenger_count <= 8;
 });
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var util = require('./../lib/util');
+var util = require('./../lib/detail/util');
 
 
 describe('Function with no name property', function() {

@@ -4,7 +4,7 @@ var should = require('should');
 var util = require('util');
 var bspec = require('./../lib/bspec');
 
-var Spec = bspec.Spec;
+var Spec = bspec.CallbackSpec;
 var SyncSpec = bspec.SyncSpec;
 
 

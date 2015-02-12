@@ -5,11 +5,11 @@ var bspec = require('./../lib/bspec');
 /**
  * Constraint that only a customer who has specified a first given name can specify a second given name
  */
-var hasFirstName = bspec.makeSync(function(customer) {
+var hasFirstName = bspec.SyncSpec(function(customer) {
   return !!(customer && customer.first_name);
 });
 
-var hasSecondName = bspec.makeSync(function(customer) {
+var hasSecondName = bspec.SyncSpec(function(customer) {
   return !!(customer && customer.second_name);
 });
 

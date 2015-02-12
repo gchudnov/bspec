@@ -2,7 +2,10 @@
 
 var should = require('should');
 var util = require('util');
-var Spec = require('./../lib/bspec').Spec;
+var bspec = require('./../lib/bspec');
+
+var Spec = bspec.CallbackSpec;
+var SyncSpec = bspec.SyncSpec;
 
 describe('Composite Specification', function() {
 

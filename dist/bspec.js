@@ -174,7 +174,7 @@ SyncSpec.prototype.explain = function explain() {
   return util.functionName(this.constructor);
 };
 
-exports.SyncSpec = SyncSpec;
+exports.Spec = SyncSpec;
 
 
 // AND
