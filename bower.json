@@ -1,7 +1,7 @@
 {
   "name": "bspec",
   "main": "./dist/bspec.js",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "homepage": "https://github.com/gchudnov/bspec",
   "authors": [
     "Grigoriy Chudnov <g.chudnov@gmail.com>"
