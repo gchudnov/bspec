@@ -4,8 +4,8 @@ var should = require('should');
 var util = require('util');
 var bspec = require('./../lib/bspec');
 
-var Spec = bspec.CallbackSpec;
-var SyncSpec = bspec.SyncSpec;
+var CallbackSpec = bspec.CallbackSpec;
+
 
 describe('Composite Specification', function() {
 
@@ -13,7 +13,7 @@ describe('Composite Specification', function() {
   function TrueSpec() {
   }
 
-  util.inherits(TrueSpec, Spec);
+  util.inherits(TrueSpec, CallbackSpec);
 
   TrueSpec.prototype.isSatisfiedBy = function(dummy, cb) {
     return cb(null, true);
@@ -23,7 +23,7 @@ describe('Composite Specification', function() {
   function FalseSpec() {
   }
 
-  util.inherits(FalseSpec, Spec);
+  util.inherits(FalseSpec, CallbackSpec);
 
   FalseSpec.prototype.isSatisfiedBy = function(dummy, cb) {
     return cb(null, false);

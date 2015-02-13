@@ -1,22 +1,25 @@
 'use strict';
 
+require('es6-promise').polyfill();
+
 var should = require('should');
 var util = require('util');
 var bspec = require('./../lib/bspec');
 
-var Spec = bspec.CallbackSpec;
+var CallbackSpec = bspec.CallbackSpec;
 var SyncSpec = bspec.SyncSpec;
+var PromiseSpec = bspec.PromiseSpec;
 
 
 describe('NOT Specification', function() {
 
-  describe('Async', function() {
+  describe('Callback', function() {
 
     // TRUE
     function TrueSpec() {
     }
 
-    util.inherits(TrueSpec, Spec);
+    util.inherits(TrueSpec, CallbackSpec);
 
     TrueSpec.prototype.isSatisfiedBy = function(dummy, cb) {
       return cb(null, true);
@@ -26,7 +29,7 @@ describe('NOT Specification', function() {
     function FalseSpec() {
     }
 
-    util.inherits(FalseSpec, Spec);
+    util.inherits(FalseSpec, CallbackSpec);
 
     FalseSpec.prototype.isSatisfiedBy = function(dummy, cb) {
       return cb(null, false);
@@ -36,7 +39,7 @@ describe('NOT Specification', function() {
     function ErrorSpec() {
     }
 
-    util.inherits(ErrorSpec, Spec);
+    util.inherits(ErrorSpec, CallbackSpec);
 
     ErrorSpec.prototype.isSatisfiedBy = function(dummy, cb) {
       return cb(new Error('cannot satisfy the spec'));
@@ -108,6 +111,53 @@ describe('NOT Specification', function() {
       var flag = alwaysFalse.not().isSatisfiedBy({});
       flag.should.be.true;
       done();
+    });
+
+  });
+
+
+  describe('Promise', function() {
+
+    // TRUE
+    function TrueSpec() {
+    }
+
+    util.inherits(TrueSpec, PromiseSpec);
+
+    TrueSpec.prototype.isSatisfiedBy = function() {
+      return Promise.resolve(true);
+    };
+
+    // FALSE
+    function FalseSpec() {
+    }
+
+    util.inherits(FalseSpec, PromiseSpec);
+
+    FalseSpec.prototype.isSatisfiedBy = function() {
+      return Promise.resolve(false);
+    };
+
+    var alwaysTrue = new TrueSpec();
+    var alwaysFalse = new FalseSpec();
+
+
+    it('can be validated for !true', function(done) {
+      alwaysTrue.not().isSatisfiedBy({}).then(function(flag) {
+        flag.should.be.false;
+        done();
+      }, function(reason) {
+        throw new Error(reason);
+      });
+    });
+
+    it('can be validated for !false', function(done) {
+      alwaysFalse.not().isSatisfiedBy({}).then(function(flag) {
+        flag.should.be.true;
+        done();
+      }, function(reason) {
+        throw new Error(reason);
+      });
     });
 
   });
