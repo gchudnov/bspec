@@ -38,5 +38,8 @@
     "should": "^5.0.0",
     "vinyl-source-stream2": "^0.1.1",
     "zuul": "^1.17.2"
+  },
+  "dependencies": {
+    "es6-promise": "^2.0.1"
   }
 }

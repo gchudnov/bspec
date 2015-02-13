@@ -1,20 +1,23 @@
 'use strict';
 
+require('es6-promise').polyfill();
+
 var should = require('should');
 var util = require('util');
 var bspec = require('./../lib/bspec');
 
-var Spec = bspec.CallbackSpec;
+var CallbackSpec = bspec.CallbackSpec;
 var SyncSpec = bspec.SyncSpec;
+var PromiseSpec = bspec.PromiseSpec;
 
 
 describe('Incomplete', function() {
 
-  describe('Async specification', function() {
+  describe('Callback-based specification', function() {
 
     it('cannot be constructed', function(done) {
       (function() {
-        new Spec(123);
+        new CallbackSpec(123);
       }).should.throw();
       done();
     });
@@ -23,7 +26,7 @@ describe('Incomplete', function() {
 
       function OverDueSpec() {
       }
-      util.inherits(OverDueSpec, Spec);
+      util.inherits(OverDueSpec, CallbackSpec);
 
       // NOTE: forgot to implement isSatisfiedBy
 
@@ -60,6 +63,35 @@ describe('Incomplete', function() {
       }).should.throw();
 
       done();
+    });
+
+  });
+
+  describe('Promise-based specification', function() {
+
+    it('cannot be constructed', function(done) {
+      (function() {
+        new PromiseSpec(123);
+      }).should.throw();
+      done();
+    });
+
+    it('cannot be used', function(done) {
+
+      function OverDueSpec() {
+      }
+      util.inherits(OverDueSpec, PromiseSpec);
+
+      // NOTE: forgot to implement isSatisfiedBy
+
+      var overDue = new OverDueSpec();
+      overDue.isSatisfiedBy({}).then(function(flag) {
+        throw new Error('should not be here');
+      }, function(reason) {
+        should.exist(reason);
+        done();
+      });
+
     });
 
   });
