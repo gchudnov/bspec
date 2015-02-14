@@ -3,8 +3,6 @@ node_js:
   - "0.10"
 script:
   - "npm run coveralls || echo 'not running on coveralls'"
-  - "test $SAUCE_USERNAME && npm run zuul || echo 'not running on saucelabs'"
-  - npm test
 env:
   global:
     - secure: X4sfFLSN2ViCFVAsIZ0IzUW6z7H+V0MPiB3iw0wLqEQmuoE1PfIaVHFVXRV61Jy1WpWOJIfPAmC0oVqcQlkStSVxdO8iLcarYA4R2dXaUxvjPWEYigd+mRE5irI2i7fx37XG+2X5Gk7lTOlkOjdhXbdi1/lvjreuEV1JzlXNbgU=
