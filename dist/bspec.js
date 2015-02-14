@@ -8,13 +8,15 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.bspec=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var PromiseSpec = require('./detail/promise');
 var CallbackSpec = require('./detail/callback');
 var SyncSpec = require('./detail/sync');
 
+module.exports.PromiseSpec = PromiseSpec;
 module.exports.CallbackSpec = CallbackSpec;
 module.exports.SyncSpec = SyncSpec;
 
-},{"./detail/callback":2,"./detail/sync":3}],2:[function(require,module,exports){
+},{"./detail/callback":2,"./detail/promise":3,"./detail/sync":4}],2:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -163,7 +165,121 @@ NotSpec.prototype.explain = function explain() {
 
 module.exports = Spec;
 
-},{"./util":4}],3:[function(require,module,exports){
+},{"./util":5}],3:[function(require,module,exports){
+'use strict';
+
+var util = require('./util');
+
+
+/**
+ * Specification base
+ * @constructor
+ */
+function Spec() {
+  if(arguments.length) {
+    return util.ensureSpec(arguments[0], Spec);
+  }
+}
+
+Spec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+  return Promise.reject(new Error('some error'));
+};
+
+Spec.prototype.and = function and(other) {
+  other = util.ensureSpec(other, Spec);
+  return new AndSpec(this, other);
+};
+
+Spec.prototype.or = function or(other) {
+  other = util.ensureSpec(other, Spec);
+  return new OrSpec(this, other);
+};
+
+Spec.prototype.not = function not() {
+  return new NotSpec(this);
+};
+
+Spec.prototype.explain = function explain() {
+  return util.functionName(this.constructor);
+};
+
+
+/**
+ * AND Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
+function AndSpec(lhs, rhs) {
+  Spec.call(this);
+  this.lhs = lhs;
+  this.rhs = rhs;
+}
+
+util.inherits(AndSpec, Spec);
+
+AndSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+  return Promise.all([this.lhs.isSatisfiedBy(candidate), this.rhs.isSatisfiedBy(candidate)]).then(function(values) {
+    return values[0] && values[1];
+  });
+};
+
+AndSpec.prototype.explain = function explain() {
+  return '(' + this.lhs.explain() + ' AND ' + this.rhs.explain() + ')';
+};
+
+
+/**
+ * OR Specification
+ * @param lhs
+ * @param rhs
+ * @constructor
+ */
+function OrSpec(lhs, rhs) {
+  Spec.call(this);
+  this.lhs = lhs;
+  this.rhs = rhs;
+}
+
+util.inherits(OrSpec, Spec);
+
+OrSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+  return Promise.all([this.lhs.isSatisfiedBy(candidate), this.rhs.isSatisfiedBy(candidate)]).then(function(values) {
+    return values[0] || values[1];
+  });
+};
+
+OrSpec.prototype.explain = function explain() {
+  return '(' + this.lhs.explain() + ' OR ' + this.rhs.explain() + ')';
+};
+
+
+/**
+ * NOT Specification
+ * @param other
+ * @constructor
+ */
+function NotSpec(other) {
+  Spec.call(this);
+  this.other = other;
+}
+
+util.inherits(NotSpec, Spec);
+
+NotSpec.prototype.isSatisfiedBy = function isSatisfiedBy(candidate) {
+  return Promise.resolve(this.other.isSatisfiedBy(candidate)).then(function(value) {
+    return !value;
+  });
+};
+
+NotSpec.prototype.explain = function explain() {
+  return '(NOT ' + this.other.explain() + ')';
+};
+
+
+module.exports = Spec;
+
+},{"./util":5}],4:[function(require,module,exports){
 'use strict';
 
 var util = require('./util');
@@ -271,7 +387,7 @@ NotSpec.prototype.explain = function explain() {
 
 module.exports = Spec;
 
-},{"./util":4}],4:[function(require,module,exports){
+},{"./util":5}],5:[function(require,module,exports){
 'use strict';
 
 exports.functionName = functionName;
