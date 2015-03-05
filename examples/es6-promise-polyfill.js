@@ -24,10 +24,16 @@ var operation2 = { status: 'stopped' };
 executableSpec.isSatisfiedBy(operation1)
   .then(function(flag) {
     console.log('is operation1 executable: ', flag);
+  }).catch(function(err) {
+    console.log('error:', err);
   });
+
 
 executableSpec.isSatisfiedBy(operation2)
   .then(function(flag) {
     console.log('is operation2 executable: ', flag);
+  }).catch(function(err) {
+    console.log('error:', err);
   });
+
 
