@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - "0.10"
+  - "iojs"
 script:
   - "npm run coveralls || echo 'not running on coveralls'"
   - "test $SAUCE_USERNAME && npm run zuul || echo 'not running on saucelabs'"
