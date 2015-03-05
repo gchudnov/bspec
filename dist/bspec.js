@@ -1,6 +1,6 @@
 /*
  * bspec - A JavaScript library for structuring business rules
- * @version v0.10.0
+ * @version v0.11.0
  * @author Grigoriy Chudnov <g.chudnov@gmail.com> (https://github.com/gchudnov)
  * @link https://github.com/gchudnov/bspec
  * @license MIT
@@ -478,7 +478,7 @@ function makeWrapper(func, BaseSpec) {
  */
 function ensureSpec(func, BaseSpec) {
   if(!isSpecLike(func, BaseSpec)) {
-    throw new Error('invalid argument: must be a function, spec-like or spec object');
+    throw new Error('invalid argument: must be a function, spec-like or a spec object');
   }
 
   if(func instanceof BaseSpec) {
