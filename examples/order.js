@@ -43,11 +43,13 @@ var spec = isValid.and(isExpired.not()).and(isProcessed.not());
 
 var order = { number: 'Z10',  date: new Date('2014-05-06') };
 
-if(spec.isSatisfiedBy(order)) {
-  // process order
-} else {
+console.log('check that the order is `valid`, `not expired` and `not processed`:');
 
+if(spec.isSatisfiedBy(order)) {
+  console.log(' - true');
+} else {
+  console.log(' - false');
 }
 
 // inspect composite specification
-console.log(spec.explain()); // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
+console.log('explain composite rule:', spec.explain()); // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))

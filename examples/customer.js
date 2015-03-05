@@ -19,6 +19,7 @@ var customer3 = { first_name: 'Juan', second_name: 'Pablo' };
 
 var isCustomerNameValid = (hasSecondName.not()).or(hasFirstName);
 
-console.log(isCustomerNameValid.isSatisfiedBy(customer1)); // true
-console.log(isCustomerNameValid.isSatisfiedBy(customer2)); // false
-console.log(isCustomerNameValid.isSatisfiedBy(customer3)); // true
+console.log('Only a customer who has specified a first given name can specify a second given name:');
+console.log('customer1 (first_name: `Bob`): ', isCustomerNameValid.isSatisfiedBy(customer1)); // true
+console.log('customer2 (second_name: `Pablo`): ', isCustomerNameValid.isSatisfiedBy(customer2)); // false
+console.log('customer3 (first_name: `Juan`, second_name: `Pablo`): ', isCustomerNameValid.isSatisfiedBy(customer3)); // true

@@ -15,5 +15,7 @@ var user2 = { };
 
 var spec = new HasNameSpec();
 
-console.log(spec.isSatisfiedBy(user1)); // true
-console.log(spec.isSatisfiedBy(user2)); // false
+console.log('test that a user has `name` property');
+
+console.log('user1 (named Bob): ', spec.isSatisfiedBy(user1)); // true
+console.log('user2 (no name property): ', spec.isSatisfiedBy(user2)); // false
