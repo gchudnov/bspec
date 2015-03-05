@@ -15,15 +15,15 @@ var Spec = require('./../lib/bspec').PromiseSpec;
 
 var TODAY = new Date(2015, 2, 1);
 
-var isTicketExpired = function isTicketExpired(ticket, cb) {
+var isTicketExpired = function isTicketExpired(ticket) {
   return Promise.resolve(TODAY > ticket.expiresAt);
 };
 
-var isMaxJourneys = function isMaxJourneys(ticket, cb) {
+var isMaxJourneys = function isMaxJourneys(ticket) {
   return Promise.resolve(ticket.cur_journeys >= ticket.max_journeys);
 };
 
-var isValidFromStation = function isValidFromStation(name, ticket, cb) {
+var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
 
