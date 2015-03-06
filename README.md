@@ -128,7 +128,7 @@ prints the rules used to form a composite specification, e.g.:
 console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
-NOTE: a meaningful names will be printed only if specification is an instance of (Sync|Callback|Promise)Spec objects.
+NOTE: a meaningful names will be printed only if specification is an instance of `Spec` objects.
 
 ### .isSatisfiedBy(...)
 checks whether some _candidate_ object satisfies the specification.
