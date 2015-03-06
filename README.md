@@ -171,7 +171,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
       // `err` contains an error if any
     });
 ```
-NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js`, modern browser or a  polyfill that implements `Promise`, .e.g `es6-promise` .
+NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment: `io.js`, modern browser or a  polyfill, e.g. `es6-promise` .
 
 For details of usage, take a look at the [examples](/examples) directory in the project tree.
 
