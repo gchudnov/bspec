@@ -8,7 +8,9 @@
 
 ## Example
 
-An entry metro barrier opens only if the ticket meets all of the following criteria:
+Consider the following Metro scenario.
+
+An entry barrier opens only if the ticket meets all of the following criteria:
 
 1. it is valid for travel from that station;
 2. it has not expired;
@@ -19,24 +21,30 @@ An entry metro barrier opens only if the ticket meets all of the following crite
 
 var Spec = require('bspec').PromiseSpec;
 
+// hardcore the `today` date for the sake of consistent results
 var TODAY = new Date(2015, 2, 1);
 
+// Is the ticket expired?
 var isTicketExpired = function isTicketExpired(ticket) {
   return Promise.resolve(TODAY > ticket.expiresAt);
 };
 
+// Is the ticket has been used for the maximum number of journeys allowed?
 var isMaxJourneys = function isMaxJourneys(ticket) {
   return Promise.resolve(ticket.cur_journeys >= ticket.max_journeys);
 };
 
+// it the ticket valid for travel from `name` station
 var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
 
-var lowangenBarrier = Spec(isValidFromStation.bind(null, 'Riva'))
+// Rule implementation
+var barrierSpec = Spec(isValidFromStation.bind(null, 'Riva'))
                         .and(Spec(isTicketExpired).not())
                         .and(Spec(isMaxJourneys).not());
 
+// Some ticket we would like to check against the given rules
 var ticket = {
   stations: [ 'Riva' ],
   expiresAt: new Date(2015, 2, 6),
@@ -44,9 +52,10 @@ var ticket = {
   cur_journeys: 11
 };
 
-stationBarrier.isSatisfiedBy(ticket)
+// check that the ticket satisfies the composite specification
+barrierSpec.isSatisfiedBy(ticket)
   .then(function(result) {
-    console.log('The ticket can be used to enter the Lowangen station:', result);
+    console.log('Is the ticket can be used to enter the Riva station:', result);
   })
   .catch(function(err) {
     throw err;
@@ -164,7 +173,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
 ```
 NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js`, modern browser or a  polyfill that implements `Promise`, .e.g `es6-promise` .
 
-For details of usage, take a look at examples directory in the project tree.
+For details of usage, take a look at the [examples](/examples) directory in the project tree.
 
 ## Tests
 
