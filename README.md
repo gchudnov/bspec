@@ -91,7 +91,7 @@ The library supports 3 types of specifications:
 * Callback-style -- `CallbackSpec`
 * Promise-based -- `PromiseSpec`
 
-Each specification implements the `isSatisfiedBy` method. The [signature](is-satisfied-by) of this method sepends on the type of specification.
+Each specification implements the `isSatisfiedBy` method. The [signature](#is-satisfied-by) of this method sepends on the type of specification.
 
 ## API
 
@@ -125,8 +125,9 @@ NOTE: a meaningful names will be printed only if specification is an instance of
 checks whether some _candidate_ object satisfies the specification.
 _isSatisfiedBy_ method signature depends on the specification type:
 
-* SyncSpec (synchronous specification)
+#### SyncSpec (synchronous specification)
 ```javascript
+  // signature:
   function isSatisfiedBy(candidate: any): boolean;
   
   // usage:
@@ -136,8 +137,9 @@ _isSatisfiedBy_ method signature depends on the specification type:
   // is something wrong, should throw an exception
 ```
 
-* CallbackSpec (callback-based specification)
+#### CallbackSpec (callback-based specification)
 ```javascript
+  // signature:
   function isSatisfiedBy(candidate: any, cb: (err: Error, result: boolean): void): void;
   
   // usage:
@@ -147,8 +149,9 @@ _isSatisfiedBy_ method signature depends on the specification type:
   });
 ```
 
-* PromiseSpec (promise-based specification)
+#### PromiseSpec (promise-based specification)
 ```javascript
+  // signature:
   function isSatisfiedBy(candidate: any): Promise;
 
   // usage:
@@ -161,6 +164,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
 ```
 NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js` (for server-side code), modern browser or use the polyfill the library like `es6-promise` that implements `Promise`.
 
+For details of usage, take a look at examples directory in the project tree.
 
 ## Tests
 
