@@ -4,11 +4,12 @@
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/bspec.svg)](https://saucelabs.com/u/bspec)
 
-_bspec_ is a tiny JavaScript library for structuring business rules.
+> A JavaScript library for structuring business rules.
 
 ## Example
-Metro
-An entry barrier opens only if the ticket meets all of the following criteria:
+
+An entry metro barrier opens only if the ticket meets all of the following criteria:
+
 1. it is valid for travel from that station;
 2. it has not expired;
 3. it has not already been used for the maximum number of journeys allowed.
@@ -16,9 +17,7 @@ An entry barrier opens only if the ticket meets all of the following criteria:
 ```javascript
 'use strict';
 
-require('es6-promise').polyfill(); // comment this if Promises are supported by your environment in io.js
-
-var Spec = require('./../lib/bspec').PromiseSpec;
+var Spec = require('bspec').PromiseSpec;
 
 var TODAY = new Date(2015, 2, 1);
 
@@ -34,26 +33,26 @@ var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
 
-//
-var lowangenBarrier =
-  Spec(isValidFromStation.bind(null, 'Lowangen'))
-    .and(Spec(isTicketExpired).not())
-    .and(Spec(isMaxJourneys).not());
+var lowangenBarrier = Spec(isValidFromStation.bind(null, 'Riva'))
+                        .and(Spec(isTicketExpired).not())
+                        .and(Spec(isMaxJourneys).not());
 
 var ticket = {
-  stations: [ 'Lowangen' ],
+  stations: [ 'Riva' ],
   expiresAt: new Date(2015, 2, 6),
   max_journeys: 30,
   cur_journeys: 11
 };
 
-lowangenBarrier.isSatisfiedBy(ticket).then(function(result) {
+stationBarrier.isSatisfiedBy(ticket)
+  .then(function(result) {
     console.log('The ticket can be used to enter the Lowangen station:', result);
   })
   .catch(function(err) {
     throw err;
   });
 ```
+The given rules are expressed as a compsoite specification, that could be checked for any ticket.
 
 ## Installation
 
@@ -78,34 +77,23 @@ $ bower install bspec
 
 ## Usage
 To use the library you should define a *specification* -- a predicate that determines whether an object does or does not satisfy some criteria.
-Predicate should be a function that returns a boolean value or a value that is can be checked for truthfulness.
+Predicate should be a function that returns a boolean value or a value that can be checked for truthfulness.
+
+Specifications can be combined using `.and()`, `.or()` and `.not()` methods in a composite specification to express more complex rules.
 
 A predicate can be:
 * A function
-* An object that has a `isSatisfiedBy` function in a property
-* An instance of Spec-objects.
+* An object that has a function in the `isSatisfiedBy` property
+* An instance of a Spec-object.
 
-Predicates and combined using operators such as "AND", "OR" and "NOT" to express more complex rules.
-To form a specification chain, wrap it with Spec(), e.g.:
-
-
-## API
-
-Depending on usage, there are 3 types of specifications:
+The library supports 3 types of specifications:
 * Synchronous -- `SyncSpec`
 * Callback-style -- `CallbackSpec`
 * Promise-based -- `PromiseSpec`
 
-A predicate should implement one of these interfaces.
+Each specification implements the `isSatisfiedBy` method. The [signature](is-satisfied-by) of this method sepends on the type of specification.
 
-
-All specifications can be combined using `.and()`, `.or()` and `.not()` methods
-
-To start the specification chain, wrap the predicate in Spec object:
-```javascript
-var spec = new Spec();
-```
-
+## API
 
 ### .and(otherSpec)
 the _and_ of a set of specifications is true if and only if all of its operands are true. 
@@ -137,38 +125,41 @@ NOTE: a meaningful names will be printed only if specification is an instance of
 checks whether some _candidate_ object satisfies the specification.
 _isSatisfiedBy_ method signature depends on the specification type:
 
-* synchronous specification, SyncSpec
+* SyncSpec (synchronous specification)
 ```javascript
   function isSatisfiedBy(candidate: any): boolean;
-```
-e.g.
-```javascript
-var result = spec.isSatisfiedBy(obj); // result is a boolean value
+  
+  // usage:
+  var result = spec.isSatisfiedBy(obj);
+  
+  // `result` true|false value
+  // is something wrong, should throw an exception
 ```
 
-
-* callback-based specification, CallbackSpec
+* CallbackSpec (callback-based specification)
 ```javascript
   function isSatisfiedBy(candidate: any, cb: (err: Error, result: boolean): void): void;
-```
-e.g.
-```javascript
+  
+  // usage:
   spec.isSatisfiedBy(obj, function(err, result) {
     // `err` contains an error if any
     // `result` true|false value
   });
 ```
 
-* promise-based specification, PromiseSpec
+* PromiseSpec (promise-based specification)
 ```javascript
   function isSatisfiedBy(candidate: any): Promise;
-```
 
-e.g.:
-```javascript
-  spec.isSatisfiedBy(obj).then(function(result) { /* true|false */ }).catch(function(err) { /* error, if any */ });
+  // usage:
+  spec.isSatisfiedBy(obj)
+    .then(function(result) {
+      // `result` true|false value
+    }).catch(function(err) {
+      // `err` contains an error if any
+    });
 ```
-NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need `io.js` or the library like `es6-promise` to polyfill the Promise.
+NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js` (for server-side code), modern browser or use the polyfill the library like `es6-promise` that implements `Promise`.
 
 
 ## Tests
