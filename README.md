@@ -39,7 +39,7 @@ var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
 
-// Rule implementation
+// Rule implementation for the `Riva` station
 var barrierSpec = Spec(isValidFromStation.bind(null, 'Riva'))
                         .and(Spec(isTicketExpired).not())
                         .and(Spec(isMaxJourneys).not());
@@ -61,7 +61,6 @@ barrierSpec.isSatisfiedBy(ticket)
     throw err;
   });
 ```
-The given rules are expressed as a compsoite specification, that could be checked for any ticket.
 
 ## Installation
 
