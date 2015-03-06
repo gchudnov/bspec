@@ -19,6 +19,7 @@ An entry barrier opens only if the ticket meets all of the following criteria:
 ```javascript
 'use strict';
 
+// use promise-based specifications
 var Spec = require('bspec').PromiseSpec;
 
 // hardcore the `today` date for the sake of consistent results
@@ -71,7 +72,7 @@ $ npm install bspec --save
 
 ## In browser
 
-To use _bspec_ in browser, use the `bspec.js` file in the `/dist` directory of this repository, or build it manually. To build a fresh version:
+To use _bspec_ in a browser, use the `bspec.js` file in the `/dist` directory of this repository, or build it manually. To build a fresh version:
 
 ```bash
 $ npm install
@@ -89,17 +90,17 @@ Predicate should be a function that returns a boolean value or a value that can 
 
 Specifications can be combined using `.and()`, `.or()` and `.not()` methods in a composite specification to express more complex rules.
 
-A predicate can be:
-* A function
-* An object that has a function in the `isSatisfiedBy` property
-* An instance of a Spec-object.
-
-The library supports 3 types of specifications:
+The library supports the following specifications:
 * Synchronous -- `SyncSpec`
-* Callback-style -- `CallbackSpec`
+* Callback-based -- `CallbackSpec`
 * Promise-based -- `PromiseSpec`
 
-Each specification implements the `isSatisfiedBy` method. The [signature](#issatisfiedby) of this method sepends on the type of specification.
+A specification must implement the `isSatisfiedBy` method. The method is used to check whether an object does  satisfy some criteria. Its [signature](#issatisfiedby) depends on the type of specification.
+
+To create a specification you can:
+* Create an instance of `Spec` object and implement `isSatisfiedBy` predicate-function.
+* Create an plain object with the `isSatisfiedBy` property that is a predicate-function and wrap it in a `Spec` object.
+* Wrap a predicate-function in a `Spec` object
 
 ## API
 
