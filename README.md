@@ -91,7 +91,7 @@ The library supports 3 types of specifications:
 * Callback-style -- `CallbackSpec`
 * Promise-based -- `PromiseSpec`
 
-Each specification implements the `isSatisfiedBy` method. The [signature](#is-satisfied-by) of this method sepends on the type of specification.
+Each specification implements the `isSatisfiedBy` method. The [signature](#issatisfiedby) of this method sepends on the type of specification.
 
 ## API
 
@@ -162,7 +162,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
       // `err` contains an error if any
     });
 ```
-NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js` (for server-side code), modern browser or use the polyfill the library like `es6-promise` that implements `Promise`.
+NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment. E.g. `io.js`, modern browser or a  polyfill that implements `Promise`, .e.g `es6-promise` .
 
 For details of usage, take a look at examples directory in the project tree.
 
