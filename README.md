@@ -8,7 +8,9 @@
 
 ## Example
 
-Consider the following Metro scenario.
+Consider the following scenario.
+
+Metro
 
 An entry barrier opens only if the ticket meets all of the following criteria:
 
@@ -85,22 +87,74 @@ $ bower install bspec
 ```
 
 ## Usage
-To use the library you should define a *specification* -- a predicate that determines whether an object does or does not satisfy some criteria.
-Predicate should be a function that returns a boolean value or a value that can be checked for truthfulness.
-
-Specifications can be combined using `.and()`, `.or()` and `.not()` methods in a composite specification to express more complex rules.
+At the center of the library is a *specification* - an object that has the following properties:
+* it can be combined with other spec-objects using `.and()`, `.or()` and `.not()` methods to form a composite specification to express more complex rules.
+* it implements `isSatisfiedBy` method -- a predicate that determines whether an object does or does not satisfy some criteria.
 
 The library supports the following specifications:
 * Synchronous -- `SyncSpec`
 * Callback-based -- `CallbackSpec`
 * Promise-based -- `PromiseSpec`
 
-A specification must implement the `isSatisfiedBy` method. The method is used to check whether an object does  satisfy some criteria. Its [signature](#issatisfiedby) depends on the type of specification.
+```javascript
+  var Spec = require('bspec').SyncSpec;
+```
+```javascript
+  var Spec = require('bspec').CallbackSpec;
+```
+```javascript
+  var Spec = require('bspec').PromiseSpec;
+```
 
-To create a specification you can:
-* Create an instance of `Spec` object and implement `isSatisfiedBy` predicate-function.
-* Create an plain object with the `isSatisfiedBy` property that is a predicate-function and wrap it in a `Spec` object.
+You should create an instance of *specification* and define `isSatisfiedBy` method to check some condition. Its [signature](#issatisfiedby) depends on the type of specification
+
+There are several ways you can define a `isSatisfiedBy` method:
 * Wrap a predicate-function in a `Spec` object
+* Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object.
+* Derive a new object from `Spec` and implement `isSatisfiedBy` predicate-function.
+
+#### Wrap a predicate-function in a `Spec` object
+```javascript
+var Spec = require('bspec').SyncSpec;
+
+function isExpired(order) {
+  return (new Date() > order.date);
+}
+
+var expiredSpec = new Spec(isExpired);
+console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
+```
+
+#### Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object.
+```javascript
+var Spec = require('bspec').SyncSpec;
+
+var isExpired = {
+  isSatisfiedBy: function(order) {
+    return (new Date() > order.date);
+  }
+};
+
+var expiredSpec = new Spec(isExpired);
+console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
+```
+
+#### Derive a new object from `Spec` and implement `isSatisfiedBy` predicate-function.
+```javascript
+var Spec = require('bspec').SyncSpec;
+var util = require('util');
+
+function IsExpiredSpec() { }
+
+util.inherits(IsExpiredSpec, Spec);
+
+IsExpiredSpec.prototype.isSatisfiedBy = function isSatisfiedBy(order) {
+  return (new Date() > order.date);
+};
+
+var expiredSpec = new IsExpiredSpec();
+console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
+```
 
 ## API
 
