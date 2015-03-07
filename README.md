@@ -37,12 +37,12 @@ var isMaxJourneys = function isMaxJourneys(ticket) {
   return Promise.resolve(ticket.cur_journeys >= ticket.max_journeys);
 };
 
-// it the ticket valid for travel from `name` station
+// St the ticket valid for travel from `name` station?
 var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
 
-// Rule implementation for the `Riva` station
+// Rule implementation for the `Riva` station barrier
 var barrierSpec = Spec(isValidFromStation.bind(null, 'Riva'))
                         .and(Spec(isTicketExpired).not())
                         .and(Spec(isMaxJourneys).not());
@@ -55,7 +55,7 @@ var ticket = {
   cur_journeys: 11
 };
 
-// check that the ticket satisfies the composite specification
+// verify the ticket satisfies the created specification
 barrierSpec.isSatisfiedBy(ticket)
   .then(function(result) {
     console.log('Is the ticket can be used to enter the Riva station:', result);
@@ -87,9 +87,9 @@ $ bower install bspec
 ```
 
 ## Usage
-At the center of the library is a *specification* - an object that has the following properties:
-* it can be combined with other spec-objects using `.and()`, `.or()` and `.not()` methods to form a composite specification to express more complex rules.
-* it implements `isSatisfiedBy` method -- a predicate that determines whether an object does or does not satisfy some criteria.
+At the center of the library is a *specification* -- an object that has the following properties:
+* it can be combined with other *specification*-objects using `.and()`, `.or()` and `.not()` methods to form a composite specification and express more complex rules.
+* it implements `isSatisfiedBy` method -- a predicate that determines whether a *candidate* object does or does not satisfy some criteria.
 
 The library supports the following specifications:
 * Synchronous -- `SyncSpec`
@@ -106,12 +106,12 @@ The library supports the following specifications:
   var Spec = require('bspec').PromiseSpec;
 ```
 
-You should create an instance of *specification* and define `isSatisfiedBy` method to check some condition. Its [signature](#issatisfiedby) depends on the type of specification
+To use the library one should create an instance of *specification* and define the `isSatisfiedBy` method to check some condition. Method [signature](#issatisfiedby) depends on the type of specification (see the [API](#api) section below).
 
-There are several ways you can define a `isSatisfiedBy` method:
-* Wrap a predicate-function in a `Spec` object
-* Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object.
-* Derive a new object from `Spec` and implement `isSatisfiedBy` predicate-function.
+There are several ways you can define the `isSatisfiedBy` method:
+* Wrap a predicate-function in a `Spec` object;
+* Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object;
+* Derive a new object from `Spec` and implement the `isSatisfiedBy` function.
 
 #### Wrap a predicate-function in a `Spec` object
 ```javascript
@@ -125,7 +125,7 @@ var expiredSpec = new Spec(isExpired);
 console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ```
 
-#### Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object.
+#### Create an object with the `isSatisfiedBy` property and wrap it in a `Spec`
 ```javascript
 var Spec = require('bspec').SyncSpec;
 
@@ -182,7 +182,7 @@ prints the rules used to form a composite specification, e.g.:
 console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
-NOTE: a meaningful names will be printed only if specification is an instance of `Spec` objects.
+**NOTE:** meaningful names will be printed only if a specification derived from a `Spec` object.
 
 ### .isSatisfiedBy(...)
 checks whether some _candidate_ object satisfies the specification.
@@ -197,7 +197,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
   var result = spec.isSatisfiedBy(obj);
   
   // `result` true|false value
-  // is something wrong, should throw an exception
+  // should throw an exception in case of an error
 ```
 
 #### CallbackSpec (callback-based specification)
@@ -225,9 +225,9 @@ _isSatisfiedBy_ method signature depends on the specification type:
       // `err` contains an error if any
     });
 ```
-NOTE: To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment: `io.js`, modern browser or a  polyfill, e.g. [es6-promise](https://github.com/jakearchibald/es6-promise).
+**NOTE:** To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment, e.g. `io.js`, a modern browser or a polyfill like [es6-promise](https://github.com/jakearchibald/es6-promise).
 
-For details of usage, take a look at the [examples](/examples) directory in the project tree.
+For details of usage, take a look at the [examples](/examples) section in the project.
 
 ## Tests
 
