@@ -37,7 +37,7 @@ var isMaxJourneys = function isMaxJourneys(ticket) {
   return Promise.resolve(ticket.cur_journeys >= ticket.max_journeys);
 };
 
-// St the ticket valid for travel from `name` station?
+// Is the ticket valid for travel from `name` station?
 var isValidFromStation = function isValidFromStation(name, ticket) {
   return Promise.resolve(ticket.stations.indexOf(name) !== -1);
 };
@@ -47,7 +47,7 @@ var barrierSpec = Spec(isValidFromStation.bind(null, 'Riva'))
                         .and(Spec(isTicketExpired).not())
                         .and(Spec(isMaxJourneys).not());
 
-// Some ticket we would like to check against the given rules
+// A ticket we would like to check
 var ticket = {
   stations: [ 'Riva' ],
   expiresAt: new Date(2015, 2, 6),
@@ -55,7 +55,7 @@ var ticket = {
   cur_journeys: 11
 };
 
-// verify the ticket satisfies the created specification
+// Verify the ticket satisfies the created specification
 barrierSpec.isSatisfiedBy(ticket)
   .then(function(result) {
     console.log('Is the ticket can be used to enter the Riva station:', result);
@@ -110,7 +110,7 @@ To use the library one should create an instance of *specification* and define t
 
 There are several ways you can define the `isSatisfiedBy` method:
 * Wrap a predicate-function in a `Spec` object;
-* Create an plain object with the `isSatisfiedBy` property and wrap it in a `Spec` object;
+* Create an object with the `isSatisfiedBy` property and wrap it in a `Spec` object;
 * Derive a new object from `Spec` and implement the `isSatisfiedBy` function.
 
 #### Wrap a predicate-function in a `Spec` object
@@ -139,7 +139,7 @@ var expiredSpec = new Spec(isExpired);
 console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ```
 
-#### Derive a new object from `Spec` and implement `isSatisfiedBy` predicate-function.
+#### Derive a new object from `Spec` and implement the `isSatisfiedBy` function
 ```javascript
 var Spec = require('bspec').SyncSpec;
 var util = require('util');
@@ -159,13 +159,13 @@ console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ## API
 
 ### .and(otherSpec)
-the _and_ of a set of specifications is true if and only if all of its operands are true. 
+the _and_ of a set of specifications is *true* if and only if all of its operands are *true*. 
 ```javascript
 var spec = spec1.and(spec2);
 ```
 
 ### .or(otherSpec)
-the _or_ of a set of specifications is true if and only if one or more of its operands is true
+the _or_ of a set of specifications is *true* if and only if one or more of its operands is *true*
 ```javascript
 var spec = spec1.or(spec2);
 ```
@@ -177,12 +177,12 @@ var spec = spec1.not();
 ```
 
 ### .explain()
-prints the rules used to form a composite specification, e.g.:
+returns a string with the rules used to form a composite specification
 ```javascript
 console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
-**NOTE:** meaningful names will be printed only if a specification derived from a `Spec` object.
+**NOTE:** meaningful specification names will be printed only if all of them are derived from a `Spec` object.
 
 ### .isSatisfiedBy(...)
 checks whether some _candidate_ object satisfies the specification.
@@ -227,7 +227,7 @@ _isSatisfiedBy_ method signature depends on the specification type:
 ```
 **NOTE:** To use [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)-based specifications you need ES6 Promise to be implemented in your environment, e.g. `io.js`, a modern browser or a polyfill like [es6-promise](https://github.com/jakearchibald/es6-promise).
 
-For details of usage, take a look at the [examples](/examples) section in the project.
+For the details of usage, take a look at the [examples](/examples) section in the project.
 
 ## Tests
 
