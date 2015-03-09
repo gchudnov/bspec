@@ -87,7 +87,7 @@ $ bower install bspec
 ```
 
 ## Usage
-At the center of the library is a *specification* -- an object that has the following properties:
+At the center of the library is a *specification* -- an object with the following properties:
 * it can be combined with other *specification*-objects using `.and()`, `.or()` and `.not()` methods to form a composite specification and express more complex rules.
 * it implements `isSatisfiedBy` method -- a predicate that determines whether a *candidate* object does or does not satisfy some criteria.
 
@@ -106,14 +106,14 @@ The library supports the following specifications:
   var Spec = require('bspec').PromiseSpec;
 ```
 
-To use the library one should create an instance of *specification* and define the `isSatisfiedBy` method to check some condition. Method [signature](#issatisfiedby) depends on the type of specification (see the [API](#api) section below).
+To use the library one should create an instance of *specification* and define the `isSatisfiedBy` method to check some condition. `isSatisfiedBy` method [signature](#issatisfiedby) depends on the type of specification (see the [API](#api) section below).
 
 There are several ways you can define the `isSatisfiedBy` method:
-* Wrap a predicate-function in a `Spec` object;
+* Write a predicate-function and wrap it in a `Spec` object;
 * Create an object with the `isSatisfiedBy` property and wrap it in a `Spec` object;
 * Derive a new object from `Spec` and implement the `isSatisfiedBy` function.
 
-#### Wrap a predicate-function in a `Spec` object
+#### Write a predicate-function and wrap it in a `Spec` object
 ```javascript
 var Spec = require('bspec').SyncSpec;
 
@@ -156,6 +156,20 @@ var expiredSpec = new IsExpiredSpec();
 console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ```
 
+OR with **ES6 classes**:
+```javascript
+var Spec = require('bspec').SyncSpec;
+
+class IsExpiredSpec extends Spec {
+  isSatisfiedBy(order) {
+    return (new Date() > order.date);
+  }
+}
+
+var expiredSpec = new IsExpiredSpec();
+console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
+```
+
 ## API
 
 ### .and(otherSpec)
@@ -177,12 +191,12 @@ var spec = spec1.not();
 ```
 
 ### .explain()
-returns a string with the rules used to form a composite specification
+returns a string that describes a composite specification
 ```javascript
 console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
-**NOTE:** meaningful specification names will be printed only if all of them are derived from a `Spec` object.
+**NOTE:** meaningful names will be printed only if specifications are derived from a `Spec` object.
 
 ### .isSatisfiedBy(...)
 checks whether some _candidate_ object satisfies the specification.
