@@ -11,7 +11,6 @@
 
 var Spec = require('./../lib/bspec').CallbackSpec;
 
-
 var TODAY = new Date(2015, 2, 1);
 
 var isTicketExpired = function isTicketExpired(ticket, cb) {
@@ -29,17 +28,14 @@ var isValidFromStation = function isValidFromStation(name, ticket, cb) {
   cb(null, result);
 };
 
-
-var lowangenBarrier =
-  Spec(isValidFromStation.bind(null, 'Lowangen'))
+function makeBarrierSpec(stationName) {
+  return Spec(isValidFromStation.bind(null, stationName))
     .and(Spec(isTicketExpired).not())
     .and(Spec(isMaxJourneys).not());
+}
 
-var rivaBarrier =
-  Spec(isValidFromStation.bind(null, 'Riva'))
-    .and(Spec(isTicketExpired).not())
-    .and(Spec(isMaxJourneys).not());
-
+var lowangenBarrier = makeBarrierSpec('Lowangen');
+var rivaBarrier = makeBarrierSpec('Riva');
 
 var ticket = {
   stations: [ 'Lowangen' ],

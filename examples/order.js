@@ -3,15 +3,13 @@
 var SyncSpec = require('./../lib/bspec').SyncSpec;
 var util = require('util');
 
-// can be implemented with bspec- factory functions
-
 // is expired
 function OrderExpiredSpec() { }
 
 util.inherits(OrderExpiredSpec, SyncSpec);
 
 OrderExpiredSpec.prototype.isSatisfiedBy = function isSatisfiedBy(order) {
-  return (Date.now() > order.date);
+  return (new Date() > order.date);
 };
 
 // is valid
