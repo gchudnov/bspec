@@ -8,11 +8,9 @@
 
 ## Example
 
-Consider the following scenario.
+Consider the following scenario:
 
-Metro
-
-An entry barrier opens only if the ticket meets all of the following criteria:
+On entering a station, passengers are required to insert a ticket into a slot beside a closed barrier. An entry barrier opens only if the ticket meets all of the following criteria:
 
 1. it is valid for travel from that station;
 2. it has not expired;
@@ -29,7 +27,7 @@ var TODAY = new Date(2015, 2, 1);
 
 // Is the ticket expired?
 var isTicketExpired = function isTicketExpired(ticket) {
-  return Promise.resolve(TODAY > ticket.expiresAt);
+  return Promise.resolve(TODAY > ticket.expires_at);
 };
 
 // Is the ticket has been used for the maximum number of journeys allowed?
@@ -50,7 +48,7 @@ var barrierSpec = Spec(isValidFromStation.bind(null, 'Riva'))
 // A ticket we would like to check
 var ticket = {
   stations: [ 'Riva' ],
-  expiresAt: new Date(2015, 2, 6),
+  expires_at: new Date(2015, 2, 6),
   max_journeys: 30,
   cur_journeys: 11
 };
