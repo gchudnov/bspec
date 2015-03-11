@@ -1,7 +1,6 @@
 'use strict';
 
 /**
- * Metro
  * An entry barrier opens only if the ticket meets all of the following criteria:
  *
  * 1. it is valid for travel from that station;
