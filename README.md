@@ -111,7 +111,7 @@ There are several ways you can define the `isSatisfiedBy` method:
 * Create an object with the `isSatisfiedBy` property and wrap it in a `Spec` object;
 * Derive a new object from `Spec` and implement the `isSatisfiedBy` function.
 
-#### Write a predicate-function and wrap it in a `Spec` object
+#### Writing a predicate-function and wrapping it in a `Spec` object
 ```javascript
 var Spec = require('bspec').SyncSpec;
 
@@ -123,7 +123,7 @@ var expiredSpec = new Spec(isExpired);
 console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ```
 
-#### Create an object with the `isSatisfiedBy` property and wrap it in a `Spec`
+#### Creating an object with the `isSatisfiedBy` property and wrapping it in a `Spec`
 ```javascript
 var Spec = require('bspec').SyncSpec;
 
@@ -137,7 +137,7 @@ var expiredSpec = new Spec(isExpired);
 console.log(expiredSpec.isSatisfiedBy({ date: new Date(2015, 1, 5) }));
 ```
 
-#### Derive a new object from `Spec` and implement the `isSatisfiedBy` function
+#### Deriving a new object from `Spec` and implementing the `isSatisfiedBy` function
 ```javascript
 var Spec = require('bspec').SyncSpec;
 var util = require('util');
