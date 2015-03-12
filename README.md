@@ -1,4 +1,4 @@
-# ![bspec logo](http://i.imgur.com/6ZP6So3.png)
+# ![bspec logo](http://i.imgur.com/5zhNRSp.png)
 
 [![Build Status](https://travis-ci.org/gchudnov/bspec.svg)](https://travis-ci.org/gchudnov/bspec) [![Coverage Status](https://coveralls.io/repos/gchudnov/bspec/badge.svg)](https://coveralls.io/r/gchudnov/bspec)
 
