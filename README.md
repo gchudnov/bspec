@@ -85,7 +85,7 @@ $ bower install bspec
 ```
 
 ## Usage
-At the center of the library is a *specification* -- an object with the following properties:
+The essential part of the library is a *specification* -- an object with the following properties:
 * it can be combined with other *specification*-objects using `.and()`, `.or()` and `.not()` methods to form a composite specification and express more complex rules.
 * it implements `isSatisfiedBy` method -- a predicate that determines whether a *candidate* object does or does not satisfy some criteria.
 
@@ -104,7 +104,7 @@ The library supports the following specifications:
   var Spec = require('bspec').PromiseSpec;
 ```
 
-To use the library one should create an instance of *specification* and define the `isSatisfiedBy` method to check some condition. `isSatisfiedBy` method [signature](#issatisfiedby) depends on the type of specification (see the [API](#api) section below).
+To create a composable *specification*, make an instance of `Spec` and define the `isSatisfiedBy` method to check for some condition. `isSatisfiedBy` method [signature](#issatisfiedby) depends on the type of specification (see the [API](#api) section below).
 
 There are several ways you can define the `isSatisfiedBy` method:
 * Write a predicate-function and wrap it in a `Spec` object;
@@ -194,7 +194,7 @@ returns a string that describes a composite specification
 console.log(someSpec.explain());
 // ((ValidOrderSpec AND (NOT OverDueOrderSpec)) AND (NOT OrderProcessed))
 ```
-**NOTE:** meaningful names will be printed only if specifications are derived from a `Spec` object.
+**NOTE:** meaningful names will be printed only for specifications derived from a `Spec` object.
 
 ### .isSatisfiedBy(...)
 checks whether some _candidate_ object satisfies the specification.
