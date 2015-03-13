@@ -10,7 +10,7 @@
 
 Consider the following scenario:
 
-On entering a station, passengers are required to insert a ticket into a slot beside a closed barrier. An entry barrier opens only if the ticket meets all of the following criteria:
+On entering a train station, passengers are required to insert a ticket into a slot beside a closed barrier. An entry barrier opens only if the ticket meets all of the following criteria:
 
 1. it is valid for travel from that station;
 2. it has not expired;
