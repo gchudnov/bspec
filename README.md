@@ -6,6 +6,10 @@
 
 > A JavaScript library for structuring business rules.
 
+## Overview
+
+[Structuring and validating business rules in JavaScript](https://medium.com/@gchudnov/structuring-and-validating-business-rules-in-javascript-fbaa1019902a)
+
 ## Example
 
 Consider the following scenario:
