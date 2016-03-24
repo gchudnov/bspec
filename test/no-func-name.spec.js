@@ -13,7 +13,8 @@ describe('Function with no name property', function() {
     };
 
     var s = util.functionName(f);
-    s.should.be.a.String.and.not.empty;
+    s.should.be.a.String;
+    s.should.be.not.empty;
 
     done();
   });

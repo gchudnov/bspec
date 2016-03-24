@@ -1,11 +1,11 @@
 {
   "name": "bspec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JavaScript library for structuring business rules",
   "main": "./lib/bspec.js",
   "scripts": {
     "test": "mocha",
-    "browser": "./node_modules/.bin/gulp script",
+    "browser": "gulp script",
     "zuul": "zuul -- ./test/*.spec.js",
     "zuul-local": "zuul --local 8080 --ui mocha-bdd -- ./test/*.spec.js",
     "istanbul-local": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && rm -rf ./coverage",
@@ -29,19 +29,19 @@
   },
   "homepage": "https://github.com/gchudnov/bspec",
   "devDependencies": {
-    "browserify": "^10.2.4",
-    "coveralls": "^2.11.2",
-    "es6-promise": "^2.2.0",
-    "gulp": "^3.9.0",
-    "gulp-header": "^1.2.2",
-    "gulp-load-plugins": "^1.0.0-rc",
+    "browserify": "^13.0.0",
+    "coveralls": "^2.11.8",
+    "es6-promise": "^3.1.2",
+    "gulp": "^3.9.1",
+    "gulp-header": "^1.7.1",
+    "gulp-load-plugins": "^1.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-uglify": "^1.2.0",
-    "gulp-util": "^3.0.5",
-    "istanbul": "^0.3.15",
-    "mocha": "^2.2.5",
-    "should": "^6.0.3",
+    "gulp-uglify": "^1.5.3",
+    "gulp-util": "^3.0.7",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
+    "should": "^8.3.0",
     "vinyl-source-stream2": "^0.1.1",
-    "zuul": "^3.0.0"
+    "zuul": "^3.10.1"
   }
 }
