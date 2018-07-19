@@ -26,7 +26,7 @@ On entering a train station, passengers are required to insert a ticket into a s
 // use promise-based specifications
 var Spec = require('bspec').PromiseSpec;
 
-// hardcore the `today` date for the sake of consistent results
+// hardcode the `today` date for the sake of consistent results
 var TODAY = new Date(2015, 2, 1);
 
 // Is the ticket expired?
